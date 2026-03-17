@@ -1,61 +1,413 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>王露 | 个人主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王露 · 司法会计 · 个人主页</title>
+    <!-- Font Awesome 5 (丰富的图标库) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body { font-family: "Times New Roman", "微软雅黑"; max-width: 800px; margin: 0 auto; padding: 20px; }
-        .lang-btn { padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        .cn-content, .en-content { display: none; }
-        .active { display: block; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Times New Roman', Times, serif;
+            transition: all 0.2s ease;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f6f0e7 0%, #fefcf9 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .card {
+            max-width: 1000px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(2px);
+            border-radius: 3rem 1rem 3rem 1rem;
+            box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.08), -10px -10px 30px rgba(255, 245, 235, 0.7);
+            padding: 2.2rem 2.5rem;
+            border: 2px solid #ffffff80;
+        }
+
+        /* 语言切换按钮 + 最后更新 */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 2px solid #cea67c;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #7a5a4a;
+            cursor: pointer;
+            background-color: #fff7f0;
+            box-shadow: 0 4px 6px #e6d7cb;
+            transition: 0.15s;
+        }
+
+        .lang-btn.active {
+            background-color: #b48b6f;
+            border-color: #8f5e40;
+            color: white;
+            box-shadow: 0 6px 10px #c9ad93;
+        }
+
+        .lang-btn:hover {
+            background-color: #dcc9b8;
+            border-color: #ad7f60;
+        }
+
+        .update-badge {
+            font-size: 0.9rem;
+            background: #e4d5c4;
+            padding: 0.4rem 1.2rem;
+            border-radius: 30px;
+            color: #4f3a2c;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            border: 1px solid white;
+            box-shadow: inset 0 0 0 1px #faf0e6;
+        }
+
+        .update-badge i {
+            margin-right: 6px;
+            color: #af7b58;
+        }
+
+        /* 头像+基本信息 */
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            align-items: center;
+            margin-bottom: 2.8rem;
+        }
+
+        .avatar-frame {
+            flex-shrink: 0;
+            width: 150px;
+            height: 150px;
+            border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%;
+            background: linear-gradient(135deg, #ecccb3, #dbb08c);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid white;
+            box-shadow: 12px 12px 0 #cfb6a0;
+        }
+
+        .avatar-frame i {
+            font-size: 5rem;
+            color: #8b634b;
+            text-shadow: 2px 2px 0 #ffe3d0;
+        }
+
+        .name-title {
+            flex: 1;
+        }
+
+        .name-title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #361f14;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem 1.5rem;
+            margin: 0.8rem 0 0.5rem;
+        }
+
+        .badge-row .item {
+            background: #e7d9cd;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2e1c12;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #faf1e9;
+        }
+
+        .badge-row i {
+            color: #b5764c;
+            width: 1.2rem;
+        }
+
+        .contact-multi {
+            display: flex;
+            flex-wrap: wrap;
+            column-gap: 2rem;
+            row-gap: 0.8rem;
+            background: #f4eadf;
+            border-radius: 60px;
+            padding: 0.8rem 2rem;
+            margin-top: 1rem;
+            border: 2px solid #ffffffb0;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            color: #3b2b1f;
+        }
+
+        .contact-item i {
+            font-size: 1.2rem;
+            color: #a96f48;
+            width: 1.5rem;
+        }
+
+        .contact-item a {
+            color: #3b2b1f;
+            text-decoration: none;
+            border-bottom: 1px dashed #bca791;
+        }
+
+        .contact-item a:hover {
+            color: #ab5f2e;
+            border-bottom: 1px solid #ab5f2e;
+        }
+
+        /* 简介卡片 */
+        .intro-card {
+            background: #fcf6f0;
+            border-radius: 2rem 2rem 2rem 0.5rem;
+            padding: 1.6rem 2rem;
+            margin: 2.5rem 0 2.2rem;
+            border-left: 10px solid #c9a27e;
+            box-shadow: 8px 8px 0 #e1cfbd;
+        }
+
+        .intro-card p {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: #3d2c1e;
+            font-style: italic;
+        }
+
+        .intro-card i {
+            color: #b48a68;
+            margin-right: 8px;
+        }
+
+        /* 研究兴趣 / 职业方向 (单独强调) */
+        .research-area {
+            background: #e8d7c8;
+            padding: 1rem 2rem;
+            border-radius: 100px 20px 100px 20px;
+            margin: 1.8rem 0 1rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem 2rem;
+        }
+
+        .research-area span {
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #4a2f1b;
+        }
+
+        .research-area .keyword {
+            background: white;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            color: #754f31;
+            box-shadow: 2px 2px 0 #cbb39b;
+        }
+
+        /* 页脚/最后更新日期 */
+        .foot-note {
+            margin-top: 2rem;
+            text-align: right;
+            font-size: 0.9rem;
+            color: #ab8a70;
+            border-top: 2px solid #ecdacb;
+            padding-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .foot-note i {
+            color: #ad6d47;
+        }
+
+        /* 双语内容切换 (默认英文显示, 中文隐藏) */
+        .lang-zh {
+            display: none;
+        }
+
+        /* 当body有data-lang="zh"时, 隐藏英文, 显示中文 */
+        body[data-lang="zh"] .lang-en {
+            display: none;
+        }
+
+        body[data-lang="zh"] .lang-zh {
+            display: inline;
+        }
+
+        /* 针对需要整体切换的块, 同样处理 */
+        body[data-lang="zh"] .lang-en-block {
+            display: none;
+        }
+
+        body[data-lang="zh"] .lang-zh-block {
+            display: block;
+        }
+
+        .lang-zh-block {
+            display: none;
+        }
+
+        /* 部分行内混合 */
+        .lang-mixed .lang-en,
+        .lang-mixed .lang-zh {
+            display: inline;
+        }
+        body[data-lang="zh"] .lang-mixed .lang-en {
+            display: none;
+        }
     </style>
 </head>
-<body>
-    <button class="lang-btn" onclick="toggleLang()">切换语言 / Switch Language</button>
-    
-    <div class="cn-content active">
-        <h1>王露</h1>
-        <p>华东政法大学 | 会计学（司法会计方向）</p >
-        <h3>基本信息</h3>
-        <ul>
-            <li>电话：15096083395</li>
-            <li>邮箱：921384020@qq.com</li>
-            <li>研究方向：司法会计、财务审计、数据分析</li>
-        </ul>
-        <h3>个人简介</h3>
-        <p>我是华东政法大学会计学（司法会计方向）的本科生，专注于司法会计、财务舞弊识别与数据分析领域。具备扎实的会计、审计与法学交叉知识，擅长运用Python、Excel等工具处理财务数据与案件分析。</p >
-        <h3>技能</h3>
-        <ul>
-            <li>专业技能：司法会计鉴定、财务报表分析、审计实务、税法基础</li>
-            <li>工具技能：Python、Excel、WPS Office</li>
-        </ul>
-        <h3>教育经历</h3>
-        <p>华东政法大学 | 会计学（司法会计方向） | 在读</p >
-        <p>最后更新：2026年03月16日</p >
+<body data-lang="zh"> <!-- 已改为默认中文 -->
+    <div class="card">
+        <!-- 顶部: 切换按钮 + 最后更新 -->
+        <div class="top-bar">
+            <div class="lang-switch">
+                <button class="lang-btn" id="btn-en">🇬🇧 English</button>
+                <button class="lang-btn active" id="btn-zh">🇨🇳 中文</button>
+            </div>
+            <div class="update-badge">
+                <i class="fas fa-calendar-alt"></i> 
+                <span class="lang-en">Last update: March 17, 2026</span>
+                <span class="lang-zh">最后更新：2026年3月17日</span>
+            </div>
+        </div>
+
+        <!-- 英雄区: 头像 + 姓名 + 基本信息 + 联系方式 (双语) -->
+        <div class="hero">
+            <div class="avatar-frame">
+                <i class="fas fa-female"></i>
+            </div>
+            <div class="name-title">
+                <h1>
+                    <span class="lang-en">Wang Lu</span>
+                    <span class="lang-zh">王露</span>
+                </h1>
+                <div class="badge-row">
+                    <span class="item"><i class="fas fa-university"></i> <span class="lang-en">East China University of Political Science and Law</span><span class="lang-zh">华东政法大学</span></span>
+                    <span class="item"><i class="fas fa-gavel"></i> <span class="lang-en">Accounting (Judicial Accounting)</span><span class="lang-zh">会计学（司法会计方向）</span></span>
+                </div>
+                <!-- 联系方式卡片 -->
+                <div class="contact-multi">
+                    <div class="contact-item"><i class="fas fa-phone-alt"></i> 15096083395</div>
+                    <div class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:921384020@qq.com">921384020@qq.com</a></div>
+                    <div class="contact-item"><i class="fab fa-github"></i> <a href="#">github.com/wanglu-ecupl</a> <span style="font-size:0.8rem; margin-left:5px;" class="lang-en">(in progress)</span><span class="lang-zh">(搭建中)</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 研究兴趣 / 职业方向 (单独强调) -->
+        <div class="research-area">
+            <span><i class="fas fa-compass"></i> <span class="lang-en">Research Interest / Career Orientation</span><span class="lang-zh">研究兴趣 / 职业方向</span> :</span>
+            <span class="keyword"><i class="fas fa-chart-line"></i> <span class="lang-en">Forensic Accounting</span><span class="lang-zh">司法会计</span></span>
+            <span class="keyword"><i class="fas fa-database"></i> <span class="lang-en">Data Analysis in Audit</span><span class="lang-zh">审计数据分析</span></span>
+            <span class="keyword"><i class="fas fa-scale-balanced"></i> <span class="lang-en">Economic Crime Evidence</span><span class="lang-zh">经济犯罪证据</span></span>
+        </div>
+
+        <!-- 个人简介卡片 (双语) -->
+        <div class="intro-card">
+            <p>
+                <i class="fas fa-quote-left"></i> 
+                <span class="lang-en">Detail-driven judicial accounting student with strong audit & statistical skills. Passionate about combining accounting, law and data science to uncover financial anomalies. Quick learner, team player, and aspiring to contribute to both research and practice.</span>
+                <span class="lang-zh">注重细节的司法会计方向学生，具备扎实的审计与统计技能。热衷于将会计、法律与数据科学结合以发现财务异常。快速学习者，团队合作者，希望为科研与实践贡献力量。</span>
+            </p>
+        </div>
+
+        <!-- 额外添加强调：研究兴趣、价值 (与司法会计结合) 用色彩块 -->
+        <div style="background: #faeede; border-radius: 30px; padding: 1.2rem 2rem; margin: 1.5rem 0; display: flex; gap: 2rem; flex-wrap: wrap; border: 1px solid #ffdec2;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <i class="fas fa-magnifying-glass-chart" style="font-size: 2.2rem; color:#b2794b;"></i>
+                <span class="lang-en" style="font-weight:500;">Let data tell the truth — forensic accountant in the making.</span>
+                <span class="lang-zh" style="font-weight:500;">让数据说话——未来司法会计师。</span>
+            </div>
+        </div>
+
+        <!-- 页脚: 再次显示更新日期 / 附加说明 -->
+        <div class="foot-note">
+            <span>
+                <i class="fab fa-github"></i> 
+                <span class="lang-en">Built with GitHub Pages · AI-assisted design</span>
+                <span class="lang-zh">使用 GitHub Pages 构建 · AI 辅助设计</span>
+            </span>
+            <span>
+                <i class="far fa-save"></i> 
+                <span class="lang-en">Last edited: 2026-03-17</span>
+                <span class="lang-zh">最后编辑：2026年3月17日</span>
+            </span>
+        </div>
     </div>
 
-    <div class="en-content">
-        <h1>Lu Wang</h1>
-        <p>East China University of Political Science and Law | Accounting (Forensic Accounting)</p >
-        <h3>Basic Info</h3>
-        <ul>
-            <li>Phone: 15096083395</li>
-            <li>Email: 921384020@qq.com</li>
-            <li>Research Interests: Forensic Accounting, Financial Audit, Data Analysis</li>
-        </ul>
-        <h3>About Me</h3>
-        <p>I am an undergraduate student majoring in Accounting (Forensic Accounting) at East China University of Political Science and Law. I focus on forensic accounting, financial fraud detection and data analysis, with solid cross-disciplinary knowledge of accounting, auditing and law.</p >
-        <h3>Skills</h3>
-        <ul>
-            <li>Professional: Forensic Accounting Identification, Financial Statement Analysis, Auditing Practice, Basic Tax Law</li>
-            <li>Tools: Python, Excel, WPS Office</li>
-        </ul>
-        <h3>Education</h3>
-        <p>East China University of Political Science and Law | Accounting (Forensic Accounting) | Ongoing</p >
-        <p>Last Updated: Mar 16, 2026</p >
-    </div>
-
+    <!-- 简单的JavaScript实现中英文切换 -->
     <script>
+        (function() {
+            const body = document.body;
+            const btnEn = document.getElementById('btn-en');
+            const btnZh = document.getElementById('btn-zh');
+
+            function setLanguage(lang) {
+                body.setAttribute('data-lang', lang);
+                if (lang === 'en') {
+                    btnEn.classList.add('active');
+                    btnZh.classList.remove('active');
+                } else {
+                    btnZh.classList.add('active');
+                    btnEn.classList.remove('active');
+                }
+            }
+
+            btnEn.addEventListener('click', function(e) {
+                setLanguage('en');
+            });
+
+            btnZh.addEventListener('click', function(e) {
+                setLanguage('zh');
+            });
+
+            setLanguage('zh');
+        })();
+    </script>
+</body>
+</html>
+
         function toggleLang() {
             const cn = document.querySelector('.cn-content');
             const en = document.querySelector('.en-content');
